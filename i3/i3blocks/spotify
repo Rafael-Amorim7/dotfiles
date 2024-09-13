@@ -1,0 +1,37 @@
+#!/usr/bin/python
+
+import dbus
+import os
+import sys
+
+try:
+    bus = dbus.SessionBus()
+    spotify = bus.get_object("org.mpris.MediaPlayer2.spotify", "/org/mpris/MediaPlayer2")
+
+    if os.environ.get('BLOCK_BUTTON'):
+        control_iface = dbus.Interface(spotify, 'org.mpris.MediaPlayer2.Player')
+        if (os.environ['BLOCK_BUTTON'] == '1'):
+            control_iface.Previous()
+        elif (os.environ['BLOCK_BUTTON'] == '2'):
+            control_iface.PlayPause()
+        elif (os.environ['BLOCK_BUTTON'] == '3'):
+            control_iface.Next()
+
+    spotify_iface = dbus.Interface(spotify, 'org.freedesktop.DBus.Properties')
+    props = spotify_iface.Get('org.mpris.MediaPlayer2.Player', 'Metadata')
+
+    # Check if 'xesam:artist' exists and is not empty
+    artist = props.get('xesam:artist', [])
+    artist_name = artist[0] if artist else ""
+
+    # Check if 'xesam:title' exists and is not empty
+    title = props.get('xesam:title', "")
+
+    if sys.version_info > (3, 0) and artist_name != "" and title != "":
+        print(f"{artist_name} - {title}")
+    else:
+        print(f"{artist_name} - {title}").encode('utf-8')
+
+    exit
+except dbus.exceptions.DBusException:
+    exit
