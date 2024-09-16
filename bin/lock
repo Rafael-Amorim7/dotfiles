@@ -2,9 +2,14 @@
 import -window root /tmp/screenshot.png
 
 # blur it
-convert /tmp/screenshot.png -blur 0x8 /tmp/screenshotblur.png
+convert /tmp/screenshot.png -blur 0x9 /tmp/screenshotblur.png
 
 rm /tmp/screenshot.png
 
 # lock the screen
-i3lock -i /tmp/screenshotblur.png
+# xss-lock --transfer-sleep-lock -- i3lock --nofork
+i3lock --nofork -i /tmp/screenshotblur.png
+
+# turn off the screen
+sleep 1
+xset dpms force off
