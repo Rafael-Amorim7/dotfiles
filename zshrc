@@ -14,6 +14,7 @@ export PATH="$PATH:`pwd`/flutter/bin"
 export PATH="$PATH:~/.config/JetBrains/PhpStorm2023.2/bin"
 export PATH="$PATH:$(go env GOPATH)/bin"
 export PATH="$PATH:/home/i3/.local/bin"
+export PATH="$PATH:/opt/nvim-linux64/bin"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -82,7 +83,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting web-search)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting web-search copyfile)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -168,3 +169,9 @@ export BAT_THEME=Dracula
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 eval "$(zoxide init zsh)"
+
+PATH="/home/i3/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/i3/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/i3/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/i3/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/i3/perl5"; export PERL_MM_OPT;
