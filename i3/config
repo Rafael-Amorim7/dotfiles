@@ -32,7 +32,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
-exec --no-startup-id nm-applet
+# exec --no-startup-id nm-applet
 
 # change volume or toggle mute
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q -D pulse sset Master 5%+ && pkill -RTMIN+1 i3blocks
@@ -69,10 +69,10 @@ bindsym $mod+k focus up
 bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
-#bindsym $mod+Left focus left
-#bindsym $mod+Down focus down
-#bindsym $mod+Up focus up
-#bindsym $mod+Right focus right
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
 
 # move focused window
 bindsym $mod+Shift+h move left
@@ -103,13 +103,13 @@ bindsym $mod+Shift+f fullscreen toggle
 # bindsym $mod+w layout tabbed
 
 # toggle tiling / floating
-bindsym Control+$mod+space floating toggle
+bindsym Shift+$mod+space floating toggle
 
 # change focus between tiling / floating windows
 #bindsym $mod+space focus mode_toggle
 
 # focus the parent container
-bindsym $mod+a focus parent
+# bindsym $mod+a focus parent
 
 # focus the child container
 #bindsym $mod+d focus child
@@ -156,7 +156,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec --no-startup-id "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec --no-startup-id "rofi -show p -modi p:rofi-power-menu -theme-str 'window {width: 16em;} listview {lines: 5;}'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -184,7 +184,6 @@ bindsym $mod+r mode "resize"
 bar {
         #status_command i3status -c /home/i3/.config/i3/i3status.conf
         status_command i3blocks
-        i3bar_command   i3bar -t
 
         colors {
                 background  #1d1d1fCC
@@ -208,7 +207,7 @@ gaps inner 5
 gaps outer 0
 
 # Alternating(Fibonacci) Layout
-default_orientation horizontal #start in opposite orientation from your monitor
+default_orientation vertical #start in opposite orientation from your monitor
 for_window [class=".*"] split toggle #toggles split at each new window
 
 # Auto open apps
@@ -228,16 +227,17 @@ bindsym Print exec --no-startup-id "flameshot gui"
 bindsym $mod+Print exec --no-startup-id peek
 
 # Volume / Audio wise
-bindsym XF86AudioPlay exec --no-startup-id playerctl play
-bindsym XF86AudioPause exec --no-startup-id playerctl pause
+bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
+# bindsym XF86AudioPlay exec --no-startup-id playerctl play
+# bindsym XF86AudioPause exec --no-startup-id playerctl pause
 bindsym XF86AudioNext exec --no-startup-id playerctl next
 bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 
 bindsym $mod+b exec --no-startup-id google-chrome
-bindsym $mod+f exec --no-startup-id nautilus
+bindsym $mod+f exec --no-startup-id nautilus --new-window
 
 bindsym $mod+v exec --no-startup-id rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
-bindsym $mod+space exec --no-startup-id /home/i3/bin/language && notify-send 'Keyboard layout changed' && pkill -RTMIN+7 i3blocks
-exec --no-startup-id setxkbmap -option caps:swapescape
+bindsym $mod+space exec --no-startup-id /home/i3/bin/language && notify-send "Keyboard layout changed $(setxkbmap -print | grep xkb_symbols | awk '{print $4}' | awk -F"+" '{print $2}')" && pkill -RTMIN+7 i3blocks
 exec --no-startup-id setxkbmap us -variant altgr-intl -option 'grp:ctrl_alt_toggle'
 exec --no-startup-id numlockx on
+exec_always --no-startup-id setxkbmap -option caps:swapescape
