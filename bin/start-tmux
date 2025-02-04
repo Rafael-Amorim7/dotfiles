@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Extrair os dois últimos nós do diretório do workspace
+workspace=$(basename "$1") # Último nó
+parent_dir=$(basename "$(dirname "$1")") # Penúltimo nó
+
+# Concatenar os dois nós para criar o nome da sessão
+session_name="$parent_dir/$workspace"
+
+# Criar ou anexar à sessão tmux
+tmux new-session -A -s "$session_name"

@@ -1,0 +1,4 @@
+#!/bin/bash
+xbanish &
+gsettings set org.gnome.desktop.interface cursor-size 32;
+

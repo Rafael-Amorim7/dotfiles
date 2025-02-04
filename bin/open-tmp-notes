@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Caminho do arquivo que você deseja abrir
+FILE_PATH="/home/rafaelcarvalho/Desktop/tmp-notes"
+
+# Verifica se o processo nvim com o arquivo especificado está em execução e pega o primeiro PID
+NVIM_PROCESS=$(ps aux | grep "/home/rafaelcarvalho/.cargo/bin/alacritty -e nvim -c set wrap $FILE_PATH" | awk '{print $2}' | head -n 1)
+
+if [ -n "$NVIM_PROCESS" ]; then
+  # Obter o ID da janela correspondente ao PID
+  WINDOW_ID=$(wmctrl -lp | awk -v pid="$NVIM_PROCESS" '$3 == pid {print $1}')
+  if [ -n "$WINDOW_ID" ]; then
+    # Focar a janela
+    xdotool windowactivate "$WINDOW_ID"
+  else
+    /home/rafaelcarvalho/.cargo/bin/alacritty -e nvim -c 'set wrap' "$FILE_PATH"
+  fi
+else
+  # Se não estiver em execução, inicia o Alacritty com nvim
+  /home/rafaelcarvalho/.cargo/bin/alacritty -e nvim -c 'set wrap' "$FILE_PATH"
+fi
